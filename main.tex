@@ -1,8 +1,9 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=25in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=60in, margin=1.5in]{geometry}
 
 \usepackage{graphicx}
+\usepackage{pdfpages}
 \usepackage{amsmath}
 \usepackage{siunitx}
 \numberwithin{equation}{section}
@@ -29,6 +30,12 @@
 
 \section{Introduction to Statistics}
 
+\subsection{Mean}
+\begin{align}
+    \mu=\frac{\sum\limits_{i=1}^{N}{x_i}}{N} \\
+    \overline{X}=\frac{\sum\limits_{i=1}^{N}{x_i}}{n}
+\end{align}
+
 \subsection{Variance}
 \begin{align}
     \sigma^2=\frac{\sum\limits_{i=1}^{N}{(x_1-\mu)^2}}{N} \\
@@ -48,7 +55,17 @@ where $\sigma^2=$ population variance and $s^2=$ sample variance. The denominato
     \centering
     \includegraphics[width=0.6\linewidth]{figures/histogram.png}
 \end{figure}
+
 \subsubsection{Box Plots}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/boxplot.jpg}
+\end{figure}
+Outliers: any value outside 1.5 $\times$ IQR above Q3 or below Q1
+\begin{align}
+    IQR = Q3 - Q1
+\end{align}
+
 \subsubsection{SOCS}
 \begin{enumerate}
     \item Symmetry: positive/right skew, negative/left skew, or normal curve
@@ -60,6 +77,63 @@ where $\sigma^2=$ population variance and $s^2=$ sample variance. The denominato
     \centering
     \includegraphics[width=0.9\linewidth]{figures/skew.png}
 \end{figure}
+
+\subsection{Probability}
+\begin{enumerate}
+    \item Conditional Probability:
+    \begin{align}
+        P(A|B) = \frac{P(A \cap B)}{P(B)}
+    \end{align}
+\end{enumerate}
+
+\section{Random Variables}
+
+\subsection{Discrete Random Variables}
+\subsubsection{Measures}
+\begin{gather}
+    \mu_x = \sum x \times p(x) \\
+    \sigma^2_x = (x_1-\mu_x)^2 p_1 + (x_2-\mu_x)^2 p_2 + ... + (x_i-\mu_x)^2 p_i
+\end{gather}
+
+\subsubsection{Binomial Situations}
+\begin{enumerate}
+    \item B: Binary Outcomes
+    \item I: Independent Trials
+    \item N: Number of Trials
+    \item S: Success Probability
+\end{enumerate}
+\subsubsection{Binomial Probabilities}
+\begin{gather}
+    P(k)=\binom{n}{k} p^k (1-p)^{n-k} \\
+    \sigma = \sqrt{np(1-p)}
+\end{gather}
+
+\subsection{Continuous Random Variables}
+%\subsubsection{Probability Density Function}
+%\subsubsection{Area Under Curve (AUC)}
+\subsubsection{Normal Distribution}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/normalcurve.png}
+\end{figure}
+
+\subsubsection{Z-Score}
+\begin{gather}
+    \text{z-score: } z = \frac{x-\mu}{\sigma}
+\end{gather}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[page=1, width=0.9\linewidth, trim=4cm 4cm 1.25cm 4cm]{standardnormaltable.pdf}
+    \label{zscore}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[page=2, width=0.9\linewidth, trim=4.1cm 4cm 1.15cm 4cm]{standardnormaltable.pdf}
+\end{figure}
+
+% \includepdf[]{standardnormaltable.pdf}
 
 \noindent \begin{flushright} \hyperref[sec:top]{back to top} \end{flushright}
 \end{document}
