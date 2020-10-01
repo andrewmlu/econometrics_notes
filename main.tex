@@ -1,6 +1,9 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=80in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=100in, margin=1.5in]{geometry}
+
+% removes paragraph indent
+\setlength\parindent{0pt}
 
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -21,7 +24,7 @@
 \usepackage[titles]{tocloft}
 \renewcommand{\cftdot}{}
 
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 
 \title{Econometrics}
 \author{Andrew Lu}
@@ -127,16 +130,16 @@ Outliers: any value outside 1.5 $\times$ IQR above Q3 or below Q1
     \text{z-score: } z = \frac{x-\mu}{\sigma}
 \end{gather}
 
-% \begin{figure}[!ht]
-%     \centering
-%     \includegraphics[page=1, width=0.9\linewidth, trim=4cm 4cm 1.25cm 4cm]{standardnormaltable.pdf}
-%     \label{zscore}
-% \end{figure}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[page=1, width=0.9\linewidth, trim=4cm 4cm 1.25cm 4cm]{standardnormaltable.pdf}
+    \label{zscore}
+\end{figure}
 
-% \begin{figure}[!ht]
-%     \centering
-%     \includegraphics[page=2, width=0.9\linewidth, trim=4.1cm 4cm 1.15cm 4cm]{standardnormaltable.pdf}
-% \end{figure}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[page=2, width=0.9\linewidth, trim=4.1cm 4cm 1.15cm 4cm]{standardnormaltable.pdf}
+\end{figure}
 
 \subsection{Sampling Distributions}
 
@@ -185,22 +188,23 @@ where $c_{\alpha/2}$ is the critical value (the number of standard errors the in
 \end{gather}
 Note: 95\% confident does not mean 95\% chance that true mean is in interval; rather, if data collection was done 100 times, 95 times the interval would contain the true mean. Confidence does not equate to chance.
 
-\subsubsection{T-Table}
+\subsubsection{t-Table}
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth, clip, trim=2cm 8cm 2cm 2.5cm]{t-table.pdf}
     \label{fig:t_table}
 \end{figure}
+\vspace{-1cm}
 
-\subsubsection{Computation}
+\subsubsection{Calculation}
 Preconditions:
 \begin{enumerate}
     \item Random sample selection
     \item $<$10\% of population
-    \item Sufficient sample size ($>$30)
+    \item Sufficient sample size ($>$30) or normally distributed
 \end{enumerate}
 
-\noindent Steps:
+Steps:
 \begin{enumerate}
     \item Calculate mean
     \item Find margin of error
@@ -208,10 +212,89 @@ Preconditions:
     \item Interpret in context
 \end{enumerate}
 
-\section{Other}
+\subsection{Hypothesis Testing}
+
+% \subsubsection{Steps}
+% \begin{enumerate}
+%     \item State hypotheses about population (null, alternative)
+%     \item Decide on level of significance
+%     \item Compare sample analysis with hypothetical
+% \end{enumerate}
+
+\subsubsection{Hypotheses}
+Null hypothesis: hypothesis assumed to be true (specific value)
+\begin{gather}
+    \text{H}_0 : \theta = .80
+\end{gather}
+where $\theta$ is the parameter being analyzed. \\[0.5cm]
+Alternative hypotheses: hypothesis to prove (one-sided or two-sided)
+\begin{gather}
+    \text{H}_1 : \theta < .80 \\
+    \text{OR} \\
+    \text{H}_1 : \theta \neq .80
+\end{gather}
+
+\subsubsection{Analytical Errors}
 \begin{enumerate}
-    \item reduce space between enumerate items
+    \item Type I error: rejecting H$_0$ when actually true
+    \item Type II error: failing to reject H$_0$ when actually false
 \end{enumerate}
 
-\noindent \begin{flushright} \hyperref[sec:top]{back to top} \end{flushright}
+\subsubsection{Significance Level}
+\begin{gather}
+    \alpha = P(\text{Reject H}_0|\text{H}_0)
+\end{gather}
+where $\alpha$ is the probability of type I error. $\alpha$ is typically 0.05.
+
+\subsubsection{p-values}
+p-value: the largest significance level given sample while still failing to reject the null. In other words, likelihood of another sample having the t-statistic equal or larger assuming null hypothesis.
+
+\subsubsection{Calculation}
+\begin{enumerate}
+    \item Confirm preconditions (random, sample size $>$ 30, sample size $<$ 10\% or normally distributed)
+    \item Calculate t statistic $T$ (see Equation~\ref{eq:t})
+    \item Find critical value $c$ based on target significance level (see \href{fig:t_table}{t-table}), or find p-value from $T$ (see \href{sec:appendix}{Appendix} for \verb|TDIST|, primarily two-tailed)
+    \item Compare $T$ and $c$, or p-value and target significance level, to determine whether to reject H$_0$
+\end{enumerate}
+
+\subsubsection{Example}
+Context: $\bar{x}$ = 520g, $s$ = 75g, n = 25, $\alpha$ = 0.05 \\
+H$_0$ : $\mu$ = 500g
+\begin{align}
+    T &= \frac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} \label{eq:t} \\
+    &= \frac{520-500}{\frac{75}{\sqrt{25}}} = \frac{20}{15} = 1.33 \\
+    c &= 1.711 \text{ (from t-table t$_{0.95}$, df = 24)}
+\end{align}
+The calculation found that $T<c$. Thus, there is not sufficient evidence to reject the null hypothesis.
+\subsubsection{Power of a Test}
+\begin{gather}
+    \pi(\theta) = P(\text{Reject H}_0|\theta) = 1 - P(\text{Type II}|\theta)
+\end{gather}
+where $\pi$ is the probability of rejecting a false null.
+
+\section{Appendix}
+\label{sec:appendix}
+
+\begin{table}[!ht]
+    \centering
+    \footnotesize
+    \begin{tabular}{c|c c}
+        Function            &   Inputs  &   Output \\ \hline
+        \verb|NORMDIST|     &   value on dist, mean, std deviation, cumulative  & probability   \\
+        \verb|NORMINV|      &   probability, mean, std deviation            &   value at prob \\
+        \verb|BINOMDIST|    &   successes, total, probability per trial, cumulative   &   probability \\
+        \verb|T.INV|        &   one-tailed probability, degrees of freedom  &   critical value \\
+        \verb|T.INV.2T|     &   two-tailed probability, degrees of freedom  &   critical value \\
+        \verb|TDIST|        &   critical value or T, deg of freedom, 1 or 2 tail    &  probability (p) \\
+        \verb|CONFIDENCE.T| &   1.00 - confidence level, std dev, sample size    &   half CI width \\
+    \end{tabular}
+    \label{tab:sheet_functions}
+\end{table}
+
+% \section{Other}
+% \begin{enumerate}
+%     \item reduce space between enumerate items [done]
+% \end{enumerate}
+
+\begin{flushright} \hyperref[sec:top]{back to top} \end{flushright}
 \end{document}
