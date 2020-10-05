@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=100in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=120in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -48,14 +48,14 @@
 \subsubsection{Variance}
 \begin{align}
     \sigma^2=\frac{\sum\limits_{i=1}^{N}{(x_1-\mu)^2}}{N} \\
-    s^2=\frac{\sum\limits_{i=1}^{n}{(x_1-\Bar{x})^2}}{n-1}
+    s^2=\frac{\sum\limits_{i=1}^{n}{(x_1-\bar{x})^2}}{n-1}
 \end{align}
-where $\sigma^2=$ population variance and $s^2=$ sample variance. The denominator is $n-1$ for sample variance calculations because of degrees of freedom.
+where $\mu$ is the population mean, $\bar{x}$ is the sample mean, $\sigma^2$ is population variance and $s^2$ is sample variance. The denominator is $n-1$ for sample variance calculations because of degrees of freedom.
 
 \subsubsection{Standard Deviation}
 \begin{align}
     \sigma=\sqrt{\frac{\sum\limits_{i=1}^{N}{(x_1-\mu)^2}}{N}} \\
-    s=\sqrt{\frac{\sum\limits_{i=1}^{n}{(x_1-\Bar{x})^2}}{n-1}}
+    s=\sqrt{\frac{\sum\limits_{i=1}^{n}{(x_1-\bar{x})^2}}{n-1}}
 \end{align}
 
 \subsection{Data Distribution}
@@ -227,7 +227,7 @@ Null hypothesis: hypothesis assumed to be true (specific value)
     \text{H}_0 : \theta = .80
 \end{gather}
 where $\theta$ is the parameter being analyzed. \\[0.5cm]
-Alternative hypotheses: hypothesis to prove (one-sided or two-sided)
+Alternative hypotheses (one-sided or two-sided):
 \begin{gather}
     \text{H}_1 : \theta < .80 \\
     \text{OR} \\
@@ -256,12 +256,15 @@ p-value: the largest significance level given sample while still failing to reje
     \item Find critical value $c$ based on target significance level (see \href{fig:t_table}{t-table}), or find p-value from $T$ (see \href{sec:appendix}{Appendix} for \verb|TDIST|, primarily two-tailed)
     \item Compare $T$ and $c$, or p-value and target significance level, to determine whether to reject H$_0$
 \end{enumerate}
+\begin{gather}
+    T = \frac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} \label{eq:t}
+\end{gather}
 
 \subsubsection{Example}
 Context: $\bar{x}$ = 520g, $s$ = 75g, n = 25, $\alpha$ = 0.05 \\
 H$_0$ : $\mu$ = 500g
 \begin{align}
-    T &= \frac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} \label{eq:t} \\
+    T &= \frac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} \\
     &= \frac{520-500}{\frac{75}{\sqrt{25}}} = \frac{20}{15} = 1.33 \\
     c &= 1.711 \text{ (from t-table t$_{0.95}$, df = 24)}
 \end{align}
@@ -271,6 +274,53 @@ The calculation found that $T<c$. Thus, there is not sufficient evidence to reje
     \pi(\theta) = P(\text{Reject H}_0|\theta) = 1 - P(\text{Type II}|\theta)
 \end{gather}
 where $\pi$ is the probability of rejecting a false null.
+
+\subsection{Regressions}
+
+% \subsubsection{Correlation Coefficient}
+% R: \{-1,1\}
+
+\subsubsection{Simple Regression Model}
+\begin{gather}
+    y = \beta_0 + \beta_1 x + u
+\end{gather}
+where $\beta_1$ is the slope parameter, $\beta_0$ is the intercept, and $u$ is the unobserved error.
+
+\subsubsection{Background}
+\begin{gather}
+    e = y - \hat{y}
+\end{gather}
+where $e$ is the residual, $y$ is the actual value, and $\hat{y}$ is the predicted value. \\[0.5cm]
+
+Zero conditional mean assumption: independent variable does not affect or provide any information about unobserved factors.
+\begin{gather}
+    E(u|x) = 0 \\
+    E(y|x) = \beta_0 + \beta_1 x
+\end{gather}
+
+\subsubsection{Calculation}
+\begin{gather}
+    \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \\
+    \bar{\beta}_1 = \frac{\sum\limits_{i=1}^{n} (x_i-\bar{x})(y_i-\bar{y})}{\sum\limits_{i=1}^{n} (x_i-\bar{x})^2}
+\end{gather}
+where $\hat{\beta_0}$ is the predicted y-intercept and $\hat{\beta_1}$ is the predicted slope based on ordinary least squares regression. $SST$ is sum of squares total, $SSE$ is sum of squares error, and $SSR$ is sum of squares regression.
+
+\subsubsection{Key Properties}
+\begin{align}
+    1.& \sum_{i=1}^{n} \bar{u}_i = 0 \\
+    2.& \sum_{i=1}^{n} x_i \bar{u}_1 = 0 \\
+    3.&\, (\bar{x},\bar{y}) \text{ on regression line}
+\end{align}
+
+\subsubsection{Goodness of Fit}
+\begin{gather}
+    SST = \sum_{i=1}^{n} (y_i-\bar{y})^2 \\
+    SSE = \sum_{i=1}^{n} (\hat{y}_i-\bar{y})^2 \\
+    SSR = \sum_{i=1}^{n} \hat{u}_i^2 \\
+    SST = SSE + SSR \\
+    R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}
+\end{gather}
+where $R^2$ is the coefficient of determination and a larger $R^2$ indicates regression explains variation well.
 
 \section{Appendix}
 \label{sec:appendix}
