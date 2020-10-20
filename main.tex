@@ -275,7 +275,7 @@ The calculation found that $T<c$. Thus, there is not sufficient evidence to reje
 \end{gather}
 where $\pi$ is the probability of rejecting a false null.
 
-\subsection{Regressions}
+\subsection{Basic Regressions}
 
 % \subsubsection{Correlation Coefficient}
 % R: \{-1,1\}
@@ -288,17 +288,17 @@ where $\beta_1$ is the slope parameter, $\beta_0$ is the intercept, and $u$ is t
 
 \subsubsection{Background}
 \begin{gather}
-    e = y - \hat{y}
+    e = \hat{u} = y - \hat{y}
 \end{gather}
-where $e$ is the residual, $y$ is the actual value, and $\hat{y}$ is the predicted value. \\[0.5cm]
+where $e$ and $\hat{u}$ is the residual, $y$ is the actual value, and $\hat{y}$ is the predicted value. \\[0.5cm]
 
 Zero conditional mean assumption: independent variable does not affect or provide any information about unobserved factors.
 \begin{gather}
-    E(u|x) = 0 \\
+    E(u|x) = 0 \label{eq:zero_conditional_mean} \\
     E(y|x) = \beta_0 + \beta_1 x
 \end{gather}
 
-\subsubsection{Calculation}
+\subsubsection{OLS Calculation}
 \begin{gather}
     \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \\
     \bar{\beta}_1 = \frac{\sum\limits_{i=1}^{n} (x_i-\bar{x})(y_i-\bar{y})}{\sum\limits_{i=1}^{n} (x_i-\bar{x})^2}
@@ -307,20 +307,50 @@ where $\hat{\beta_0}$ is the predicted y-intercept and $\hat{\beta_1}$ is the pr
 
 \subsubsection{Key Properties}
 \begin{align}
-    1.& \sum_{i=1}^{n} \bar{u}_i = 0 \\
-    2.& \sum_{i=1}^{n} x_i \bar{u}_1 = 0 \\
+    1.& \sum_{i=1}^{n} \hat{u}_i = 0 \\
+    2.& \sum_{i=1}^{n} x_i \hat{u}_1 = 0 \\
     3.&\, (\bar{x},\bar{y}) \text{ on regression line}
 \end{align}
+where $\hat{u}_i$ is the residual of data point $i$.
 
 \subsubsection{Goodness of Fit}
 \begin{gather}
     SST = \sum_{i=1}^{n} (y_i-\bar{y})^2 \\
     SSE = \sum_{i=1}^{n} (\hat{y}_i-\bar{y})^2 \\
-    SSR = \sum_{i=1}^{n} \hat{u}_i^2 \\
+    SSR = \sum_{i=1}^{n} \hat{u}_i^2 = \sum_{i=1}^{n} (y_i-\hat{y}_i)^2 \\
     SST = SSE + SSR \\
     R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}
 \end{gather}
-where $R^2$ is the coefficient of determination and a larger $R^2$ indicates regression explains variation well.
+where $R^2$ is the coefficient of determination and a larger $R^2$ indicates the regression explains variation well.
+
+\section{Multivariate Regressions on Cross-Sectional Data}
+
+\subsection{OLS Regressions}
+Begin use of Gretl software \\[0.5cm]
+A linear regression is any equation that follows a linear pattern between two variables or any modified version of two variables (logs, exponents, etc)
+
+\subsubsection{Gauss-Markov Assumptions for Simple Linear Regressions}
+\begin{enumerate}
+    \item SLR.1: Functional form $y = \beta_0 + \beta_1 x + u$
+    \item SLR.2: Random sample
+    \item SLR.3: Explanatory variable must vary ($\sigma \neq 0$)
+    \item SLR.4: Zero conditional mean (see Equation~\ref{eq:zero_conditional_mean})
+    \item SLR.5: Homoskedasticity ($Var(u|x) = \sigma^2$ (constant))
+\end{enumerate}
+$\qquad \Rightarrow E(\beta_0) = \beta_0, E(\beta_1) = \beta_1$
+
+\subsubsection{Sampling Variance of OLS Estimators}
+\begin{gather}
+    Var(\hat{B}_1) = \frac{\sigma^2}{\sum_{i=1}^{n} (x_i - \bar{x})^2} = \frac{\sigma^2}{SST_x} \\
+    Var(\hat{B}_0) = \frac{\sigma^2 n^{-1} \sigma^2}{SST_x} = \frac{\sum_{i=1}^{n} {x_i^2}}{SST_x}
+\end{gather}
+As $\sigma$ increases, $Var(\hat{B}_1)$ increases. As range increases, $SST_x$ increases and $Var(\hat{B}_1)$ decreases.
+
+\begin{gather}
+    \hat{\sigma}^2 = \frac{1}{n-2} \sum_{i=1}^{n} \hat{u}_i^2 \\
+    \text{se}(\hat{B}_1) = \frac{\hat{\sigma}}{\sqrt{SST_x}}
+\end{gather}
+where $\hat{\sigma}$ is the standard error of the regression, or the standard deviation of the error.
 
 \section{Appendix}
 \label{sec:appendix}
@@ -329,22 +359,25 @@ where $R^2$ is the coefficient of determination and a larger $R^2$ indicates reg
     \centering
     \footnotesize
     \begin{tabular}{c|c c}
-        Function            &   Inputs  &   Output \\ \hline
-        \verb|NORMDIST|     &   value on dist, mean, std deviation, cumulative  & probability   \\
-        \verb|NORMINV|      &   probability, mean, std deviation            &   value at prob \\
-        \verb|BINOMDIST|    &   successes, total, probability per trial, cumulative   &   probability \\
-        \verb|T.INV|        &   one-tailed probability, degrees of freedom  &   critical value \\
-        \verb|T.INV.2T|     &   two-tailed probability, degrees of freedom  &   critical value \\
-        \verb|TDIST|        &   critical value or T, deg of freedom, 1 or 2 tail    &  probability (p) \\
-        \verb|CONFIDENCE.T| &   1.00 - confidence level, std dev, sample size    &   half CI width \\
+        Function                &   Inputs  &   Output \\ \hline
+        \verb|NORMDIST|$^1$     &   value on dist, mean, std deviation, cumulative  & probability   \\
+        \verb|NORMINV|          &   probability, mean, std deviation            &   value at prob \\
+        \verb|BINOMDIST|$^2$    &   successes, total, probability per trial, cumulative   &   probability \\
+        \verb|T.INV|            &   one-tailed probability, degrees of freedom  &   critical value \\
+        \verb|T.INV.2T|         &   two-tailed probability, degrees of freedom  &   critical value \\
+        \verb|TDIST|            &   critical value or T, deg of freedom, 1 or 2 tail    &  probability (p) \\
+        \verb|CONFIDENCE.T|     &   1.00 - confidence level, std dev, sample size    &   half CI width \\
     \end{tabular}
     \label{tab:sheet_functions}
+    \caption{Google Sheet Functions}
 \end{table}
+\footnotesize{$^1$cumulative = true, $^2$cumulative = false (in most cases)}
 
 % \section{Other}
 % \begin{enumerate}
 %     \item reduce space between enumerate items [done]
 % \end{enumerate}
 
+\normalsize
 \begin{flushright} \hyperref[sec:top]{back to top} \end{flushright}
 \end{document}
