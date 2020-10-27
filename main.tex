@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=120in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=140in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -306,6 +306,7 @@ Zero conditional mean assumption: independent variable does not affect or provid
 where $\hat{\beta_0}$ is the predicted y-intercept and $\hat{\beta_1}$ is the predicted slope based on ordinary least squares regression. $SST$ is sum of squares total, $SSE$ is sum of squares error, and $SSR$ is sum of squares regression.
 
 \subsubsection{Key Properties}
+\label{sec:key_properties}
 \begin{align}
     1.& \sum_{i=1}^{n} \hat{u}_i = 0 \\
     2.& \sum_{i=1}^{n} x_i \hat{u}_1 = 0 \\
@@ -314,6 +315,7 @@ where $\hat{\beta_0}$ is the predicted y-intercept and $\hat{\beta_1}$ is the pr
 where $\hat{u}_i$ is the residual of data point $i$.
 
 \subsubsection{Goodness of Fit}
+\label{sec:goodness_of_fit}
 \begin{gather}
     SST = \sum_{i=1}^{n} (y_i-\bar{y})^2 \\
     SSE = \sum_{i=1}^{n} (\hat{y}_i-\bar{y})^2 \\
@@ -325,7 +327,7 @@ where $R^2$ is the coefficient of determination and a larger $R^2$ indicates the
 
 \section{Multivariate Regressions on Cross-Sectional Data}
 
-\subsection{OLS Regressions}
+\subsection{OLS Regressions Basics}
 Begin use of Gretl software \\[0.5cm]
 A linear regression is any equation that follows a linear pattern between two variables or any modified version of two variables (logs, exponents, etc)
 
@@ -337,7 +339,7 @@ A linear regression is any equation that follows a linear pattern between two va
     \item SLR.4: Zero conditional mean (see Equation~\ref{eq:zero_conditional_mean})
     \item SLR.5: Homoskedasticity ($Var(u|x) = \sigma^2$ (constant))
 \end{enumerate}
-$\qquad \Rightarrow E(\beta_0) = \beta_0, E(\beta_1) = \beta_1$
+$\qquad \Rightarrow E(\hat{\beta}_0) = \beta_0, E(\hat{\beta}_1) = \beta_1$
 
 \subsubsection{Sampling Variance of OLS Estimators}
 \begin{gather}
@@ -351,6 +353,35 @@ As $\sigma$ increases, $Var(\hat{B}_1)$ increases. As range increases, $SST_x$ i
     \text{se}(\hat{B}_1) = \frac{\hat{\sigma}}{\sqrt{SST_x}}
 \end{gather}
 where $\hat{\sigma}$ is the standard error of the regression, or the standard deviation of the error.
+
+\subsection{Multiple Linear Regression Model}
+\begin{gather}
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_k x_k + u
+\end{gather}
+
+\subsubsection{Commonalities with Simple Regression}
+\begin{enumerate}
+    \item See \ref{sec:key_properties}, applicable for each variable
+    \item See \ref{sec:goodness_of_fit}
+\end{enumerate}
+
+\subsubsection{MLR Assumptions}
+\begin{enumerate}
+    \item MLR.1: Functional form
+    \item MLR.2: Random sample
+    \item MLR.3: No perfect collinearity (SLR.3 plus no perfect linearity between two independent variables)
+    \item MLR.4: Zero conditional mean
+\end{enumerate}
+$\qquad \Rightarrow E(\hat{\beta}_j) = \beta_j, j = 0, 1, ..., k$
+
+\subsubsection{Omitted Variable Bias}
+Given $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$, if $x_2$ is excluded, $\tilde{y} = \tilde{\beta}_0 + \tilde{\beta}_1 x_1$.
+\begin{gather}
+    \tilde{\beta}_1 = \hat{\beta}_1 + \hat{\beta}_2 \tilde{\delta}_1 \\
+    E(\tilde{\beta}_1) = \beta_1 + \beta_2 \tilde{\delta}_1 \\
+    \text{Bias}(\tilde{\beta}_1) = E(\tilde{\beta}_1) - \beta_1 = \beta_2 \tilde{\delta}_1
+\end{gather}
+where $\tilde{\delta}_1$ is the slope of the regression of $x_2$ on $x_1$.
 
 \section{Appendix}
 \label{sec:appendix}
