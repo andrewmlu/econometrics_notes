@@ -371,6 +371,8 @@ where $\hat{\sigma}$ is the standard error of the regression, or the standard de
     \item MLR.2: Random sample
     \item MLR.3: No perfect collinearity (SLR.3 plus no perfect linearity between two independent variables)
     \item MLR.4: Zero conditional mean
+    \item MLR.5: Homoskedasticity
+    \item MLR.6: Normality of error
 \end{enumerate}
 $\qquad \Rightarrow E(\hat{\beta}_j) = \beta_j, j = 0, 1, ..., k$
 
@@ -382,6 +384,51 @@ Given $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$, if $x_2$ is excluded, $\til
     \text{Bias}(\tilde{\beta}_1) = E(\tilde{\beta}_1) - \beta_1 = \beta_2 \tilde{\delta}_1
 \end{gather}
 where $\tilde{\delta}_1$ is the slope of the regression of $x_2$ on $x_1$.
+
+\subsubsection{Variance}
+\begin{gather}
+    Var(\hat{B}_j) = \frac{\sigma^2}{SST_j(1-R_j^2)}
+\end{gather}
+where $R_j^2$ is the $R^2$ from regressing $x_j$ on the other independent variables.\\[0.5cm]
+Multicollinearity leads to high variance as seen by a larger $R_j^2$. Removing a variable leads to larger bias.
+
+\begin{gather}
+    VIF_j = \frac{1}{1-R_j^2}
+\end{gather}
+where $VIF_j$ is the variable inflation factor for $x_j$. Typically $VIF$ should be below 10.
+
+\begin{gather}
+    \hat{\sigma}^2 = \frac{1}{n-k-1} \sum_{i=1}^{n} \hat{u}_i^2
+\end{gather}
+where $k$ is the number of independent variables in regression.
+
+\begin{gather}
+    se(\hat{B}_j) = \sqrt{\frac{\hat{\sigma}^2}{SST_j(1-R_j^2)}}
+\end{gather}
+Note that the equation includes $\hat{\sigma}$, not $\sigma$. $sd(\hat{B}_j)$ uses $\sigma$.
+
+\subsection{Inference}
+
+\subsubsection{T-statistic}
+\begin{gather}
+    T = \frac{\hat{B}_j}{se(\hat{B}_j)} \\
+    df = n-k-1
+\end{gather}
+
+\subsubsection{p-value}
+Probability of coefficient value assuming null hypothesis (using gretl)
+
+\subsubsection{F-test}
+Joint significance: see which variables do not affect explanatory power of regression \\[0.5cm]
+Compute SSR for restricted and unrestricted models to find F-statistic:
+\begin{gather}
+    F = \frac{(SSR_r - SSR_{ur})/q}{SSR_{ur}/(n-k-1)}
+\end{gather}
+where $q$ is the number of restricted variables. Use gretl to find p-value.
+
+% \begin{gather}
+%     H_0 : \beta_3 = 0, \beta_4 = 0, \beta_5 = 0
+% \end{gather}
 
 \section{Appendix}
 \label{sec:appendix}
