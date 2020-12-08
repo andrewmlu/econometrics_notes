@@ -420,7 +420,7 @@ Probability of coefficient value assuming null hypothesis (using gretl)
 
 \subsubsection{F-test}
 Joint significance: see which variables do not affect explanatory power of regression \\[0.5cm]
-Compute SSR for restricted and unrestricted models to find F-statistic:
+Compute $SSR$ for restricted and unrestricted models to find F-statistic:
 \begin{align}
     F &= \frac{(SSR_r - SSR_{ur})/q}{SSR_{ur}/(n-k-1)} \\
     &= \frac{(R_{ur}^2 - R_{r}^2)/q}{(1-R_{ur}^2)/(n-k-1)}
@@ -439,13 +439,43 @@ Note: do not include all categories of the qualitative characteristic in the reg
 Interaction variable: additional variable that allows test of whether one variable's effects vary based on grouping (e.g., $female \cdot educ$)
 
 \subsubsection{Differences across Groups}
-Create unrestricted model with interaction variables for all variables and run test of joint significance (F-test) or run Chow test without interaction variables (separate regressions for different groups).
+Create unrestricted model with interaction variables for all variables and run test of joint significance (F-test) or run Chow test without interaction variables (separate regressions for different groups)
 
 \subsubsection{Chow Test}
 \begin{gather}
     F = \frac{SSR_p - (SSR_1 + SSR_2)}{SSR_1 + SSR_2} \frac{n - 2(k+1)}{k+1}
 \end{gather}
 where $n$ is number of observations and $k$ is the number of interactions.
+
+\subsubsection{Linear Probability Model}
+Determines probability of binary variable being true by using a continuous variable \\[0.5cm]
+Note: linear probability models are heteroskedastic
+
+\subsection{Heteroskedasticity}
+
+Potential issues: variance formulas invalid \\
+Nonissues: still no bias, $R^2$ unchanged, still can use gretl (with robust error enabled)
+
+\subsubsection{Heteroskedasticity-Robust Standard Errors}
+\begin{gather}
+    \widehat{Var}(\hat{\beta}_j) = \frac{\sum_{i=1}^{n} \hat{r}_{ij}^{2} \hat{u}_i^2}{SSR_j^2}
+\end{gather}
+where $\hat{r}_{ij}^{2}$ is the residual of the $i$th value regressing $x_j$ on all other independent variables and $SSR_j^2$ is the $SSR$ of $x_j$ on all other independent variables.
+
+\subsubsection{Testing for Heteroskedasticity}
+Hypothesis test:
+\begin{gather}
+    H_0 : Var(u|x) = E(u^2) = \sigma^2
+\end{gather}
+
+Breusch-Pagan test: assumes no linear relationship between $u^2$ and independent variables to find p-value (use gretl)
+\begin{gather}
+    u^2 = \delta_0 + \delta_1 x_1 + \delta_2 x_2 + ... \\
+    H_0 : \delta_1 = \delta_2 = ... = 0
+\end{gather}
+
+White test: assumes $u^2$ uncorrelated with independent variables, their squares, or their cross products \\[0.5cm]
+Alternative White test: assumes no linear relationship between $u^2$ and fitted values and fitted values squared
 
 \section{Appendix}
 \label{sec:appendix}
