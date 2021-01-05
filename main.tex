@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=150in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=160in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -325,11 +325,17 @@ where $\hat{u}_i$ is the residual of data point $i$.
 \end{gather}
 where $R^2$ is the coefficient of determination and a larger $R^2$ indicates the regression explains variation well.
 
+\begin{gather}
+    \bar{R}^2 = 1 - \frac{SSR/(n-k-1)}{SST/(n-1)}
+\end{gather}
+where $\bar{R}^2$ is the adjusted $R^2$ and $k$ is the number of independent variables in regression. Typically adjusted $R^2$ is used for non-nested models (where removing independent variables from one of the regressions can make the other regression have the same set of independent variables).
+
 \section{Multivariate Regressions on Cross-Sectional Data}
 
 \subsection{OLS Regressions Basics}
 Begin use of Gretl software \\[0.5cm]
-A linear regression is any equation that follows a linear pattern between two variables or any modified version of two variables (logs, exponents, etc)
+A linear regression is any equation that follows a linear pattern between two variables or any modified version of two variables (logs, exponents, etc) \\[0.5cm]
+Note: for log dependent variables with large coefficients for independent variables, use $100 [e^{\beta}-1]\%$ instead.
 
 \subsubsection{Gauss-Markov Assumptions for Simple Linear Regressions}
 \begin{enumerate}
