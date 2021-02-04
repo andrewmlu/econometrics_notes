@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=160in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=180in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -62,13 +62,13 @@ where $\mu$ is the population mean, $\bar{x}$ is the sample mean, $\sigma^2$ is 
 \subsubsection{Histograms}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.6\linewidth]{figures/histogram.png}
+    \includegraphics[width=0.6\linewidth]{figures and tables/histogram.png}
 \end{figure}
 
 \subsubsection{Box Plots}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/boxplot.jpg}
+    \includegraphics[width=0.8\linewidth]{figures and tables/boxplot.jpg}
 \end{figure}
 Outliers: any value outside 1.5 $\times$ IQR above Q3 or below Q1
 \begin{align}
@@ -84,7 +84,7 @@ Outliers: any value outside 1.5 $\times$ IQR above Q3 or below Q1
 \end{enumerate}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/skew.png}
+    \includegraphics[width=0.9\linewidth]{figures and tables/skew.png}
 \end{figure}
 
 \subsection{Probability}
@@ -122,7 +122,7 @@ Outliers: any value outside 1.5 $\times$ IQR above Q3 or below Q1
 \subsubsection{Normal Distribution}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/normalcurve.png}
+    \includegraphics[width=0.8\linewidth]{figures and tables/normalcurve.png}
 \end{figure}
 
 \subsubsection{Z-Score}
@@ -132,13 +132,13 @@ Outliers: any value outside 1.5 $\times$ IQR above Q3 or below Q1
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[page=1, width=0.9\linewidth, trim=4cm 4cm 1.25cm 4cm]{standardnormaltable.pdf}
+    \includegraphics[page=1, width=0.9\linewidth, trim=4cm 4cm 1.25cm 4cm]{figures and tables/standardnormaltable.pdf}
     \label{zscore}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[page=2, width=0.9\linewidth, trim=4.1cm 4cm 1.15cm 4cm]{standardnormaltable.pdf}
+    \includegraphics[page=2, width=0.9\linewidth, trim=4.1cm 4cm 1.15cm 4cm]{figures and tables/standardnormaltable.pdf}
 \end{figure}
 
 \subsection{Sampling Distributions}
@@ -191,7 +191,7 @@ Note: 95\% confident does not mean 95\% chance that true mean is in interval; ra
 \subsubsection{t-Table}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\linewidth, clip, trim=2cm 8cm 2cm 2.5cm]{t-table.pdf}
+    \includegraphics[width=\linewidth, clip, trim=2cm 8cm 2cm 2.5cm]{figures and tables/t-table.pdf}
     \label{fig:t_table}
 \end{figure}
 \vspace{-1cm}
@@ -482,6 +482,94 @@ Breusch-Pagan test: assumes no linear relationship between $u^2$ and independent
 
 White test: assumes $u^2$ uncorrelated with independent variables, their squares, or their cross products \\[0.5cm]
 Alternative White test: assumes no linear relationship between $u^2$ and fitted values and fitted values squared
+
+\subsubsection{Weighted Least Squares}
+In order to run weighted least squares in gretl, define an independent variable as 1/(fitted values) and use the variable as the weight.
+
+\subsection{Functional Form Misspecification}
+Functional form misspecification: not specifying higher order or log forms may lead to high bias
+
+\subsubsection{Ramsey RESET Test}
+RESET (Regression Equation Specification Error Test) Test: include squares and higher order fitted values to regression to determine whether to reject null hypothesis of properly specified regression.
+
+\section{Multivariate Regression on Time Series Data}
+
+The basics:
+\begin{enumerate}
+    \item Temporally ordered
+    \item Sequences of random variables (stochastic process)
+    \item Sample itself is one random path for time series out of many possible paths
+\end{enumerate}
+
+\subsection{Time Series Models}
+
+\subsubsection{Static Models}
+Contemporaneous relationship between variable (e.g., Phillips Curve tradeoff between inflation and unemployment)
+
+\begin{gather}
+    y_t = \alpha_0 + \delta_0 z_t
+\end{gather}
+
+\subsubsection{Finite Distributed Lag (FDL) Model}
+Model with variables for lagged effects (one-time shock or permanent shock)
+\begin{gather}
+    y_t = \alpha_0 + \delta_0 z_{t} + \delta_1 z_{t-1} + \delta_q z_{t-q} + u_t
+\end{gather}
+where $\delta_{s}$ is the coefficient of the effect from a shock $t-s$ years ago based on independent variable $z_{t-s}$.
+
+\subsubsection{Time Series Assumptions}
+\begin{enumerate}
+    \item TS.1: Linear regression
+    \item TS.2: No perfect collinearity
+    \item TS.3: Zero conditional mean for all time periods
+    \item TS.4: Homoskedasticity
+    \item TS.5: No serial correlation/autocorrelation (errors across time periods)
+    \item TS.6: Normality (normally distributed errors)
+\end{enumerate}
+
+\subsection{Trending Time Series}
+
+\subsubsection{Linear and Exponential Time Trend}
+\begin{gather}
+    y_t = \alpha_0 + \alpha_1 t + e_t \\
+    \log(y_t) = \alpha_0 + \alpha_1 t + e_t
+\end{gather}
+
+Detrend: include time trend to evaluate non-trended effects of independent variables
+
+\subsection{Stationary and Weakly Dependent Time Series}
+
+Stationary Stochastic Process: probability distribution constant
+Covariance Stationary Process: constant $x_t$, constant variance for $x_t$, and covariance $x_t$ and $x_{t+h}$ is only affected by $h$, not $t$
+
+Weak Dependence: some correlation between $x_t$ and $x_{t+h}$ but decreases as $h$ increases, allows for OLS (e.g., moving average models, autoregressive models)
+
+\subsubsection{Weaker Assumptions}
+\begin{enumerate}
+    \item TS.1: Linear regression and weakly dependent
+    \item TS.2: No perfect collinearity
+    \item TS.3: Contemporaneously exogenous independent variables
+    \item TS.4: Contemporaneously homoskedastic
+    \item TS.5: No autocorrelation
+\end{enumerate}
+
+\subsection{Highly Persistent Time Series}
+
+\begin{gather}
+    y_t = y_{t-1} + e_t
+\end{gather}
+
+\subsubsection{Addressing Autocorrelation}
+
+Use differencing ($\Delta$) when autocorrelation is high \\[0.5cm]
+Autocorrelation shortcomings: standard errors (and thus t-tests and F-tests) invalid, no longer minimum variance estimator \\[0.5cm]
+Tests for autocorrelation:
+\begin{enumerate}
+    \item tests on residuals from lagged residuals (strictly exogenous)
+    \item Durbin-Watson test (strictly exogenous): $\frac{\sum\limits_{t=2}^{n}(\hat{u}_{t}-\hat{u}_{t-1})^2}{\sum\limits_{t=1}^{n}\hat{u}_t^2}$ ($<$2 positive autocorrelation, $>$2 negative autocorrelation)
+    \item tests on residuals and lagged residuals and independent variables (not strictly exogenous)
+    \item Breusch-Godfrey test of residuals on lagged residuals, independent variables, all relevant lags
+\end{enumerate}
 
 \section{Appendix}
 \label{sec:appendix}
