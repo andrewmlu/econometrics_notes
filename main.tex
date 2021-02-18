@@ -560,7 +560,6 @@ Weak Dependence: some correlation between $x_t$ and $x_{t+h}$ but decreases as $
 \end{gather}
 
 \subsubsection{Addressing Autocorrelation}
-
 Use differencing ($\Delta$) when autocorrelation is high \\[0.5cm]
 Autocorrelation shortcomings: standard errors (and thus t-tests and F-tests) invalid, no longer minimum variance estimator \\[0.5cm]
 Tests for autocorrelation:
@@ -570,6 +569,26 @@ Tests for autocorrelation:
     \item tests on residuals and lagged residuals and independent variables (not strictly exogenous)
     \item Breusch-Godfrey test of residuals on lagged residuals, independent variables, all relevant lags
 \end{enumerate}
+
+Correcting for autocorrelation:
+\begin{enumerate}
+    \item Respecify model (e.g., Cochrane-Orcutt, Prais-Winston)
+    \item Autocorrelation robust standard errors
+\end{enumerate}
+
+\subsection{Financial Econometrics}
+
+\subsubsection{Capital Asset Pricing Model (CAPM)}
+Risk: unsystematic/diversifiable (risk of a specific asset), systematic (market risk) \\
+CAPM assumptions: rational investors, no diversifiable risk, risk free alternatives, maximize expected return at given systematic risk \\
+Risk-return tradeoff: expected return only increases when risk increases \\
+
+Efficient frontier, capital asset line (CAL)
+\begin{gather}
+    E(R_i) = R_F + \beta_i [E(R_M)-R_F] \\
+    \beta_i = \frac{cov(R_i,R_M)}{\sigma^2(R_M)}
+\end{gather}
+where $R_F$ is risk-free return, $R_M$ is market return, $R_i$ is expected return for a risk level of $i$.
 
 \section{Appendix}
 \label{sec:appendix}
