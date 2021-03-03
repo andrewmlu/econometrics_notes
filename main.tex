@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=180in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=200in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -539,9 +539,8 @@ Detrend: include time trend to evaluate non-trended effects of independent varia
 
 \subsection{Stationary and Weakly Dependent Time Series}
 
-Stationary Stochastic Process: probability distribution constant
-Covariance Stationary Process: constant $x_t$, constant variance for $x_t$, and covariance $x_t$ and $x_{t+h}$ is only affected by $h$, not $t$
-
+Stationary Stochastic Process: probability distribution constant \\[0.5cm]
+Covariance Stationary Process: constant $x_t$, constant variance for $x_t$, and covariance $x_t$ and $x_{t+h}$ is only affected by $h$, not $t$ \\[0.5cm]
 Weak Dependence: some correlation between $x_t$ and $x_{t+h}$ but decreases as $h$ increases, allows for OLS (e.g., moving average models, autoregressive models)
 
 \subsubsection{Weaker Assumptions}
@@ -578,17 +577,53 @@ Correcting for autocorrelation:
 
 \subsection{Financial Econometrics}
 
-\subsubsection{Capital Asset Pricing Model (CAPM)}
-Risk: unsystematic/diversifiable (risk of a specific asset), systematic (market risk) \\
-CAPM assumptions: rational investors, no diversifiable risk, risk free alternatives, maximize expected return at given systematic risk \\
-Risk-return tradeoff: expected return only increases when risk increases \\
+\subsubsection{Key Definitions}
 
-Efficient frontier, capital asset line (CAL)
+$E(R)$: expected return \\
+$R_M$: market return \\
+$R_F$: risk-free return \\
+$R_i$: return on asset $i$ \\
+$Z_i$: $R_i - R_F$ \\
+$\beta_i$: volatility or risk of asset $i$ \\
+$\alpha_i$: excess return beyond risk given $\beta_i$ \\
+$\gamma$ or $\gamma_1$: $Z_M$ \\
+$\gamma_0$: $R_i-R_M$
+
+\subsubsection{Capital Asset Pricing Model (CAPM)}
+Risk: unsystematic/diversifiable (specific asset's risk), systematic (market risk) \\[0.5cm]
+CAPM assumptions: rational investors, no diversifiable risk, risk free alternatives, maximize expected return at given systematic risk \\[0.5cm]
+Risk-return tradeoff: expected return only increases when risk increases \\[0.5cm]
+Capital allocation line (CAL): all combinations of risk-free and market assets \\[0.5cm]
+Expected returns and security market line:
 \begin{gather}
-    E(R_i) = R_F + \beta_i [E(R_M)-R_F] \\
-    \beta_i = \frac{cov(R_i,R_M)}{\sigma^2(R_M)}
+    E(R_i) = R_F + \beta_i [E(R_M) - R_F] \\
+    [E(R_i) - R_F] = \beta_i [E(R_M) - R_F] \\
+    \beta_i = \frac{cov(R_i,R_M)}{\sigma^2(R_M)} \\
+    E(R_i) - R_F = E(Z_i) \\
+    E(R_M) - R_F = E(Z_M) \\
+    Z_i = E(R_i - R_F) = \alpha_i + \beta_i * E(R_M - R_F) + \epsilon_i \\
+    Z_i = \alpha_i + \gamma \beta_i + \sum_{j=1}^{k} \theta_j X_{ji} + \epsilon_i
 \end{gather}
-where $R_F$ is risk-free return, $R_M$ is market return, $R_i$ is expected return for a risk level of $i$.
+where $R_F$ is risk-free return, $R_M$ is market return, $R_i$ is expected return for a risk level of $i$, $\gamma$ is market's excess return, $X$ is any other explanatory variable.
+
+\subsubsection{``Two Pass" Regression Test}
+First pass: estimate $\beta_i$
+\begin{gather}
+    Z_i = \alpha_i + \beta_i Z_M
+\end{gather} \\
+Second pass: compare returns and betas for each asset
+\begin{gather}
+    \bar{Z}_i = \gamma_0 + \gamma_1 \beta_i + \epsilon_i
+\end{gather}
+where $\gamma_0$ is excess return compared to market and $\gamma_1$ is excess return of the market ($Z_M$).
+
+\subsubsection{Multi-Factor CAPM}
+Fundamentals: \\
+Market cap: price $\times$ shares outstanding \\
+P/E: market cap / earnings \\
+P/B: market cap / net assets \\
+ROA: net income / assets \\
+ROE: net income / equity (i.e., assets - liability)
 
 \section{Appendix}
 \label{sec:appendix}
