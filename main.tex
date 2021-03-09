@@ -598,7 +598,7 @@ Expected returns and security market line:
 \begin{gather}
     E(R_i) = R_F + \beta_i [E(R_M) - R_F] \\
     [E(R_i) - R_F] = \beta_i [E(R_M) - R_F] \\
-    \beta_i = \frac{cov(R_i,R_M)}{\sigma^2(R_M)} \\
+    \beta_i = \frac{Cov(R_i,R_M)}{\sigma^2(R_M)} \\
     E(R_i) - R_F = E(Z_i) \\
     E(R_M) - R_F = E(Z_M) \\
     Z_i = E(R_i - R_F) = \alpha_i + \beta_i * E(R_M - R_F) + \epsilon_i \\
@@ -624,6 +624,40 @@ P/E: market cap / earnings \\
 P/B: market cap / net assets \\
 ROA: net income / assets \\
 ROE: net income / equity (i.e., assets - liability)
+
+\subsubsection{CAPM Shortfalls}
+\begin{enumerate}
+    \item Stock market index not entirely representative
+    \item Beta is not observed, only estimated
+    \item Borrowing may be limited
+\end{enumerate}
+
+\subsection{Univariate Time Series}
+
+\subsubsection{Autoregressive Processes}
+Autoregressive model: model that regresses on itself \\
+
+Autocorrelation function:
+\begin{gather}
+    \tau_k = \frac{\gamma_k}{\gamma_0} = CORR(Y_t, Y_{t-k}) \\
+    \gamma_k = Cov(Y_t, Y_{t-k}) \\
+    \gamma_0 = Var(Y_t)
+\end{gather}
+
+Partial autocorrelation function: controls effect of intervening lags, non-zero values up to the order of the autocorrelation
+
+\subsubsection{Moving Average Processes}
+Moving average: model that regresses on current and past errors 
+\begin{gather}
+    Y_t = \mu + \epsilon_t + b_1 \epsilon_{t-1} + b_2 \epsilon_{t-2} + ...
+\end{gather}
+
+Yule-Walker equation:
+\begin{gather}
+    Cov(Y_t,Y_{t-k}) = E(Y_t \cdot Y_{t-k}) = \gamma_k
+\end{gather}
+
+ACF non-zero for k $\leq$ q (order of MA), PACF alternates and decays
 
 \section{Appendix}
 \label{sec:appendix}
