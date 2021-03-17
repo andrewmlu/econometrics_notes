@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=200in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=220in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -635,21 +635,26 @@ ROE: net income / equity (i.e., assets - liability)
 \subsection{Univariate Time Series}
 
 \subsubsection{Autoregressive Processes}
-Autoregressive model: model that regresses on itself \\
-
-Autocorrelation function:
+Autoregressive model: model that regresses on itself \\[0.5cm]
+Autocorrelation function (ACF):
 \begin{gather}
     \tau_k = \frac{\gamma_k}{\gamma_0} = CORR(Y_t, Y_{t-k}) \\
     \gamma_k = Cov(Y_t, Y_{t-k}) \\
     \gamma_0 = Var(Y_t)
 \end{gather}
 
-Partial autocorrelation function: controls effect of intervening lags, non-zero values up to the order of the autocorrelation
+Partial autocorrelation function (PACF): controls effect of intervening lags \\[0.5cm]
+For autoregressive values, non-zero PACF values up to the order of the autocorrelation, ACF decays \\
+
+AR(p) model:
+\begin{gather}
+    Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + ... + \phi_p Y_{t-p}
+\end{gather}
 
 \subsubsection{Moving Average Processes}
-Moving average: model that regresses on current and past errors 
+Moving average MA(q): model that regresses on current and past errors
 \begin{gather}
-    Y_t = \mu + \epsilon_t + b_1 \epsilon_{t-1} + b_2 \epsilon_{t-2} + ...
+    Y_t = \mu + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + ... \theta_q \varepsilon_{t-q}
 \end{gather}
 
 Yule-Walker equation:
@@ -657,7 +662,41 @@ Yule-Walker equation:
     Cov(Y_t,Y_{t-k}) = E(Y_t \cdot Y_{t-k}) = \gamma_k
 \end{gather}
 
-ACF non-zero for k $\leq$ q (order of MA), PACF alternates and decays
+ACF non-zero for $k \leq q$ (order of MA), PACF alternates and decays
+
+\subsubsection{ARMA Models}
+
+Estimation approaches:
+\begin{enumerate}
+    \item Confidence interval from correlogram (only approximate)
+    \item Q-statistic (still imperfect)
+    \item Box-Jenkins Approach
+\end{enumerate}
+
+Box-Jenkins Approach
+\begin{enumerate}
+    \item Find $k$ and $q$ from correlogram
+    \item Run ARMA regression to estimate coefficients
+    \item Check Akaike and Schwarz information criteria
+\end{enumerate}
+
+ARMA residuals take on the characteristics of omitted ARMA variables if underspecified (check correlograms to diagnose)
+
+\subsection{Forecasting}
+
+Types of forecasting:
+\begin{enumerate}
+    \item In-sample
+    \item Ex-post
+    \item Ex-ante
+\end{enumerate}
+
+Static forecasting: does not include variables from previous time lags \\
+Conditional forecasting: independent variables must be known \\
+Unconditional forecasting: independent variables can be predicted
+
+MA(q) model only has explanatory power up to the order of the process
+AR(p) model can forecast beyond the order of the process
 
 \section{Appendix}
 \label{sec:appendix}
