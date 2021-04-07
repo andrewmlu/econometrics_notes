@@ -680,7 +680,7 @@ Box-Jenkins Approach
     \item Check Akaike and Schwarz information criteria
 \end{enumerate}
 
-ARMA residuals take on the characteristics of omitted ARMA variables if underspecified (check correlograms to diagnose)
+ARMA residuals take on the characteristics of omitted ARMA variables if underspecified (check correlograms to diagnose).
 
 \subsection{Forecasting}
 
@@ -697,6 +697,40 @@ Unconditional forecasting: independent variables can be predicted
 
 MA(q) model only has explanatory power up to the order of the process
 AR(p) model can forecast beyond the order of the process
+
+\subsubsection{Forecasting Errors}
+Mean Squared Forecasting Error (MSFE), Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE):
+
+\begin{gather}
+    MSFE = \frac{\sum\limits_{t=1}^{T} (Y_t^f - Y_t)^2}{T-k} \\
+    MAE = \frac{\sum\limits_{t=1}^{T} |Y_t^f - Y_t|}{T-k} \\
+    MAPE = \frac{\sum\limits_{t=1}^{T} |\frac{Y_t^f - Y_t}{Y_t}|}{T-k}
+\end{gather}
+
+\subsection{Volatility Clustering}
+
+\subsubsection{ARCH Model}
+MA model but for squared errors \\[0.5cm]
+ARCH(q) model:
+\begin{gather}
+    \sigma_t^2 = \alpha_0 + \alpha_1 u_{t-1}^2 + \alpha_2 u_{t-2}^2 + ... + \alpha_p u_{t-q}^2
+\end{gather}
+
+GARCH(p, q) model (essentially ARMA(p, q) on the variance of a variable):
+\begin{gather}
+    \sigma_t^2 = \alpha_0 + \sum_{i=1}^q \alpha_i u_{t-i}^2 + \sum_{i=1}^p \beta_i \sigma_{t-i}^2
+\end{gather}
+
+TGARCH model:
+\begin{gather}
+    \sigma_t^2 = \omega_0 + \alpha_1 u_{t-1}^2 + \gamma d_{t-1} u_{t-1}^2 + \beta_1 \sigma_{t-1}^2
+\end{gather}
+where $d_{t-1}$ is a threshold dummy variable for the interaction term. \\[0.5cm]
+GARCH models can also include other explanatory variables. \\[0.5cm]
+MGARCH model:
+\begin{gather}
+    y_t = \alpha_0 + \alpha_1 y_{t-1} + \gamma \sigma_t + u_t
+\end{gather}
 
 \section{Appendix}
 \label{sec:appendix}
