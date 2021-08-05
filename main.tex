@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[paperwidth=8.5in, paperheight=220in, margin=1.5in]{geometry}
+\usepackage[paperwidth=8.5in, paperheight=226in, margin=1.5in]{geometry}
 
 % removes paragraph indent
 \setlength\parindent{0pt}
@@ -28,7 +28,7 @@
 
 \title{Econometrics}
 \author{Andrew Lu}
-\date{Mr. Lizardo, Fall 2020}
+\date{Mr. Lizardo, Fall 2020 \& Spring 2021}
 
 \begin{document}
 
@@ -740,6 +740,33 @@ State dependent regression:
 \end{gather}
 
 Regression can also be determined from Chow test with dummy variable. Utilize Quandt test for multiple state changes.
+
+\section{Advanced Topics}
+
+\subsection{Pooled and Panel Data}
+Independently pooled cross sectional data: take a different sample for different cross sections
+
+\begin{gather}
+    y = \beta_0 + \delta_0 after + \beta_1 change + \delta_1 after\cdot change
+\end{gather}
+
+Panel data: same sample across time
+
+\begin{gather}
+    \Delta y = \delta_0 + \beta_1 \Delta x + \Delta u
+\end{gather}
+
+\subsection{Instrumental Variables}
+Uncorrelated with error, must be correlated with independent variable, uncorrelated with dependent variable \\[0.5cm]
+Helps control for errors that correlate with independent variables and reduce omitted variable bias
+
+\subsection{Two Stage Least Squares}
+If independent variable is correlated with error, predict independent variable using only exogenous information \\[0.5cm]
+Should be equivalent to instrumental variables if one endogenous and one exogenous variable 
+
+\subsubsection{Testing for Endogeneity and Overidentification}
+Hausman test: compares OLS and 2SLS \\
+Sargan test: determines whether instruments are correlated with residuals
 
 \section{Appendix}
 \label{sec:appendix}
